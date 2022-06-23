@@ -1,4 +1,6 @@
+import 'package:ebook_flutter_app/screens/details_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'constant.dart';
 import 'screens/home_screen.dart';
@@ -10,16 +12,19 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: true,
       title: 'Book App',
       theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
-        textTheme: Theme.of(context).textTheme.apply(
-              displayColor: kBlackColor,
-            ),
-      ),
-      home: WelcomeScreen(),
+          scaffoldBackgroundColor: Get.isDarkMode ? Colors.black : Colors.white,
+          textTheme: Theme.of(context).textTheme.apply(displayColor: Get.isDarkMode ? Colors.white : Colors.black),
+          appBarTheme: AppBarTheme(
+              backgroundColor: Get.isDarkMode ? Colors.grey[700] : Colors.blue,
+              iconTheme: IconThemeData(
+                color: Get.isDarkMode ? Colors.black : Colors.white,
+              ))),
+      darkTheme: ThemeData.dark().copyWith(primaryColor: Colors.grey[700]),
+      home: DetailsScreen(),
     );
   }
 }
