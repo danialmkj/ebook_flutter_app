@@ -1,13 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:ebook_flutter_app/screens/Setting.dart';
+import 'package:ebook_flutter_app/screens/custom_in_detail.dart';
 import 'package:ebook_flutter_app/screens/in_detail.dart';
 import 'package:ebook_flutter_app/values/string.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../constant.dart';
-import '../widgets/book_rating.dart';
-import '../widgets/rounded_button.dart';
 
 class DetailsScreen extends StatelessWidget {
   @override
@@ -34,7 +33,7 @@ class DetailsScreen extends StatelessWidget {
                     alignment: Alignment.topCenter,
                     padding: EdgeInsets.only(
                         top: size.height * .02,
-                        bottom: size.height*.2,
+                        bottom: size.height * .2,
                         left: size.width * .05,
                         right: size.width * .05),
                     height: size.height * .5,
@@ -67,9 +66,7 @@ class DetailsScreen extends StatelessWidget {
                       ),
                       ChapterCard(
                         name: "فصل سوم",
-                        press: () => Get.to(InDetail(
-                          chapterNumber: 3,
-                        )),
+                        press: () => Get.to(CustomInDetail()),
                       ),
                       ChapterCard(
                         name: "فصل چهارم",
