@@ -1,7 +1,8 @@
 import 'package:ebook_flutter_app/screens/Setting.dart';
+import 'package:ebook_flutter_app/screens/in_detail.dart';
 import 'package:ebook_flutter_app/screens/search_screen.dart';
-import 'package:ebook_flutter_app/screens/start_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -16,21 +17,24 @@ class _HomeScreenState extends State<HomeScreen> {
       direction: Axis.horizontal,
       spacing: 10.0,
       children: [
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-          alignment: Alignment.center,
-          margin: EdgeInsets.only(bottom: 10.0),
-          height: 150.0,
-          width: 150.0,
-          child: Text(
-              'حداقل نیاز های برنامه  آموزشی  رشته پزشکی  مقطع دکتری  عمومی',
-              textAlign: TextAlign.center,
-              textDirection: TextDirection.rtl),
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.indigo, width: 6.0),
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(20.0),
-              bottomLeft: Radius.circular(20.0),
+        InkWell(
+          onTap: ()=> Get.to(InDetail(indexChapter: 0,)),
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+            alignment: Alignment.center,
+            margin: EdgeInsets.only(bottom: 10.0),
+            height: 150.0,
+            width: 150.0,
+            child: Text(
+                'حداقل نیاز های برنامه  آموزشی  رشته پزشکی  مقطع دکتری  عمومی',
+                textAlign: TextAlign.center,
+                textDirection: TextDirection.rtl),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.indigo, width: 6.0),
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(20.0),
+                bottomLeft: Radius.circular(20.0),
+              ),
             ),
           ),
         ),
