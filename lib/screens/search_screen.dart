@@ -1,14 +1,10 @@
 import 'dart:convert';
-
 import 'package:ebook_flutter_app/constant.dart';
-import 'package:ebook_flutter_app/model/text_value.dart';
-import 'package:ebook_flutter_app/widgets/search_widget.dart';
+import 'package:ebook_flutter_app/screens/show_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'dart:convert';
+import 'package:get/get.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -62,6 +58,7 @@ class SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar(2),
       body: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -81,9 +78,7 @@ class SearchScreenState extends State<SearchScreen> {
                       hintText: "جست وجو...",
                       hintTextDirection: TextDirection.rtl,
                       hintStyle: TextStyle(
-                        color: isLightTheme.value == true
-                            ? Colors.black
-                            : Colors.white,
+                        color: Colors.black,
                         fontSize: 18,
                         fontFamily: 'iran-sans-ds',
                         decoration: TextDecoration.none,
@@ -102,6 +97,7 @@ class SearchScreenState extends State<SearchScreen> {
                         },
                       ),
                     ),
+                    keyboardType: TextInputType.text,
                   ),
                 ],
               ),
@@ -118,6 +114,8 @@ Widget _listView(text_value) {
         itemCount: text_value.length,
         itemBuilder: (context, index) {
           var textVal = text_value[index];
+          String description = textVal['description'];
+
           return Card(
             margin: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
             shape: RoundedRectangleBorder(
@@ -126,24 +124,49 @@ Widget _listView(text_value) {
             child: Theme(
               data:
                   Theme.of(context).copyWith(dividerColor: Colors.transparent),
-              child: ExpansionTile(
-                title: Text(
-                  textVal['name'],
-                  textDirection: TextDirection.rtl,
-                  style: const TextStyle(fontSize: 20.0, color: Colors.black54),
-                ),
-                childrenPadding: const EdgeInsets.only(
-                    bottom: 20.0, right: 20.0, left: 20.0, top: 5.0),
-                children: [
-                  Text(
-                    textVal['description'],
+              child: InkWell(
+                onTap: (() => pushNewScreen(
+                      context,
+                      screen: ShowItem(
+                        name: textVal['name'],
+                        description: textVal['description'],
+                      ),
+                      withNavBar: true, // OPTIONAL VALUE. True by default.
+                      pageTransitionAnimation:
+                          PageTransitionAnimation.slideRight,
+                    )),
+                child: ExpansionTile(
+                  title: Text(
+                    textVal['name'],
                     textDirection: TextDirection.rtl,
-                    textAlign: TextAlign.justify,
-                  )
-                ],
+                    style:
+                        const TextStyle(fontSize: 20.0, color: Colors.black54),
+                  ),
+                  childrenPadding: const EdgeInsets.only(
+                      bottom: 20.0, right: 20.0, left: 20.0, top: 5.0),
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        const Text(
+                          'بیشتر',
+                          textDirection: TextDirection.rtl,
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(
+                              color: Colors.blue, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          '${description.substring(0, 39)} ...',
+                          textDirection: TextDirection.rtl,
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
-                
-              ),
+            ),
           );
         }),
   );

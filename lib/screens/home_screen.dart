@@ -1,8 +1,8 @@
-import 'package:ebook_flutter_app/screens/Setting.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:ebook_flutter_app/constant.dart';
 import 'package:ebook_flutter_app/screens/in_detail.dart';
-import 'package:ebook_flutter_app/screens/search_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -10,138 +10,165 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
-
-  static List<Widget> _pages = [
-    Wrap(
-      direction: Axis.horizontal,
-      spacing: 10.0,
-      children: [
-        InkWell(
-          onTap: ()=> Get.to(InDetail(indexChapter: 0,)),
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-            alignment: Alignment.center,
-            margin: EdgeInsets.only(bottom: 10.0),
-            height: 150.0,
-            width: 150.0,
-            child: Text(
-                'حداقل نیاز های برنامه  آموزشی  رشته پزشکی  مقطع دکتری  عمومی',
-                textAlign: TextAlign.center,
-                textDirection: TextDirection.rtl),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.indigo, width: 6.0),
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(20.0),
-                bottomLeft: Radius.circular(20.0),
-              ),
-            ),
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-          alignment: Alignment.center,
-          margin: EdgeInsets.only(bottom: 10.0),
-          height: 150.0,
-          width: 150.0,
-          child: Text('برنامه آموزشی رشته پزشکی  مقطع دکتری عمومی',
-              textAlign: TextAlign.center, textDirection: TextDirection.rtl),
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.indigo, width: 6.0),
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20.0),
-              bottomRight: Radius.circular(20.0),
-            ),
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-          alignment: Alignment.center,
-          height: 150.0,
-          width: 150.0,
-          child: Text('ارزشیابی برنامه آموزشی رشته پزشکی مقطع دکتری عمومی ',
-              textAlign: TextAlign.center, textDirection: TextDirection.rtl),
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.indigo, width: 6.0),
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20.0),
-              bottomRight: Radius.circular(20.0),
-            ),
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-          alignment: Alignment.center,
-          height: 150.0,
-          width: 150.0,
-          child: Text(
-              'مشخصات دوره ودروس  برنامه آموزشی  رشته پزشکی  مقطع دکتری عمومی',
-              textAlign: TextAlign.center,
-              textDirection: TextDirection.rtl),
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.indigo, width: 6.0),
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(20.0),
-              bottomLeft: Radius.circular(20.0),
-            ),
-          ),
-        ),
-      ],
-    ),
-    SearchScreen(),
-    Setting(),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(name_app_bar(_selectedIndex)),
-          centerTitle: true,
-        ),
+        appBar: CustomAppBar(1),
         body: Center(
-          child: _pages.elementAt(_selectedIndex), //New
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          currentIndex: _selectedIndex, //New
-          showUnselectedLabels: false,
-          onTap: _onItemTapped,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.search),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: '',
-            ),
-          ],
+          child: Wrap(
+            direction: Axis.horizontal,
+            spacing: 10.0,
+            children: [
+              InkWell(
+                onTap: () => pushNewScreen(
+                  context,
+                  screen: InDetail(indexChapter: 0),
+                  withNavBar: true, // OPTIONAL VALUE. True by default.
+                  pageTransitionAnimation: PageTransitionAnimation.slideRight,
+                ),
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.01,
+                      vertical: MediaQuery.of(context).size.height * 0.01),
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).size.height * 0.01),
+                  height: MediaQuery.of(context).size.height * 0.23,
+                  width: MediaQuery.of(context).size.width * 0.43,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width * 0.05),
+                          child: Image.asset('assets/images/logo1.png',
+                              width: MediaQuery.of(context).size.width * 0.2,
+                              height: MediaQuery.of(context).size.height * 0.1),
+                        ),
+                        AutoSizeText('حداقل نیاز های برنامه',
+                            textAlign: TextAlign.center,
+                            textDirection: TextDirection.rtl,
+                            style: TextStyle(fontFamily: ''),),
+                      ]),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.indigo, width: 6.0),
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(20.0),
+                      bottomLeft: Radius.circular(20.0),
+                    ),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () => pushNewScreen(
+                  context,
+                  screen: InDetail(
+                    indexChapter: 1,
+                  ),
+                  withNavBar: true, // OPTIONAL VALUE. True by default.
+                  pageTransitionAnimation: PageTransitionAnimation.slideRight,
+                ),
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.01,
+                      vertical: MediaQuery.of(context).size.height * 0.01),
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).size.height * 0.01),
+                  height: MediaQuery.of(context).size.height * 0.23,
+                  width: MediaQuery.of(context).size.width * 0.43,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Image.asset('assets/images/logo2.png',
+                            width: MediaQuery.of(context).size.width * 0.3,
+                            height: MediaQuery.of(context).size.height * 0.1),
+                        AutoSizeText('برنامه آموزشی',
+                            textAlign: TextAlign.center,
+                            textDirection: TextDirection.rtl),
+                      ]),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.indigo, width: 6.0),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20.0),
+                      bottomRight: Radius.circular(20.0),
+                    ),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () => pushNewScreen(
+                  context,
+                  screen: InDetail(
+                    indexChapter: 2,
+                  ),
+                  withNavBar: true, // OPTIONAL VALUE. True by default.
+                  pageTransitionAnimation: PageTransitionAnimation.slideRight,
+                ),
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.01,
+                      vertical: MediaQuery.of(context).size.height * 0.01),
+                  alignment: Alignment.center,
+                  height: MediaQuery.of(context).size.height * 0.23,
+                  width: MediaQuery.of(context).size.width * 0.43,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Image.asset('assets/images/logo3.png',
+                            width: MediaQuery.of(context).size.width * 0.3,
+                            height: MediaQuery.of(context).size.height * 0.1),
+                        AutoSizeText('ارزشیابی ',
+                            textAlign: TextAlign.center,
+                            textDirection: TextDirection.rtl),
+                      ]),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.indigo, width: 6.0),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20.0),
+                      bottomRight: Radius.circular(20.0),
+                    ),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () => pushNewScreen(
+                  context,
+                  screen: InDetail(
+                    indexChapter: 3,
+                  ),
+                  withNavBar: true, // OPTIONAL VALUE. True by default.
+                  pageTransitionAnimation: PageTransitionAnimation.slideRight,
+                ),
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.01,
+                      vertical: MediaQuery.of(context).size.height * 0.01),
+                  alignment: Alignment.center,
+                  height: MediaQuery.of(context).size.height * 0.23,
+                  width: MediaQuery.of(context).size.width * 0.43,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Image.asset('assets/images/logo4.png',
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          height: MediaQuery.of(context).size.height * 0.1),
+                      AutoSizeText('مشخصات دوره',
+                          textAlign: TextAlign.center,
+                          textDirection: TextDirection.rtl),
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.indigo, width: 6.0),
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(20.0),
+                      bottomLeft: Radius.circular(20.0),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ));
   }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  String name_app_bar(int index){
-    switch (index) {
-      case 0:
-      return 'صفحه اصلی';
-
-      case 1:
-      return 'جست وجو';
-
-      default:
-      return 'تنظیمات';
-    }
-  }
-
-
 }

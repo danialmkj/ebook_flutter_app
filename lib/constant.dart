@@ -1,49 +1,15 @@
 import 'dart:convert';
-
 import 'package:ebook_flutter_app/model/text_value.dart';
+import 'package:ebook_flutter_app/screens/about_us.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'screens/search_screen.dart';
 import 'widgets/text_value_list.dart';
 
-ThemeData darkTheme = ThemeData(
-  brightness: Brightness.dark,
-  primaryColor: Colors.white,
-  toggleableActiveColor: Colors.white,
-  textTheme: const TextTheme().apply(
-    displayColor: Colors.white,
-  ),
-  buttonTheme: ButtonThemeData(
-    buttonColor: Colors.indigo[400],
-    disabledColor: Colors.grey,
-  ),
-  appBarTheme: AppBarTheme(
-      backgroundColor: Colors.grey[700],
-      iconTheme: IconThemeData(
-        color: Colors.white,
-      )),
-  bottomNavigationBarTheme: BottomNavigationBarThemeData(
-    backgroundColor: Colors.grey[700],
-    selectedIconTheme: const IconThemeData(
-      color: Colors.white,
-    ),
-    unselectedIconTheme: const IconThemeData(
-      color: Colors.white38,
-    ),
-    selectedItemColor: Colors.white,
-    unselectedItemColor: Colors.white38,
-  ),
-);
-
+//? Light Theme
 ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   primaryColor: Colors.indigo[400],
-  textTheme: const TextTheme().apply(
-    displayColor: Colors.black,
-  ),
   buttonTheme: ButtonThemeData(
     buttonColor: Colors.indigo[400],
     disabledColor: Colors.grey,
@@ -55,6 +21,33 @@ ThemeData lightTheme = ThemeData(
       )),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: Colors.indigo[400],
+    selectedIconTheme: const IconThemeData(
+      color: Colors.white,
+    ),
+    unselectedIconTheme: const IconThemeData(
+      color: Colors.white38,
+    ),
+    selectedItemColor: Colors.white,
+    unselectedItemColor: Colors.white38,
+  ),
+);
+//! Dark Theme
+ThemeData darkTheme = ThemeData(
+  brightness: Brightness.dark,
+  primaryColor: Colors.white,
+  toggleableActiveColor: Colors.white,
+  //fontFamily: ,
+  buttonTheme: ButtonThemeData(
+    buttonColor: Colors.indigo[400],
+    disabledColor: Colors.grey,
+  ),
+  appBarTheme: AppBarTheme(
+      backgroundColor: Colors.grey[700],
+      iconTheme: const IconThemeData(
+        color: Colors.white,
+      )),
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    backgroundColor: Colors.grey[700],
     selectedIconTheme: const IconThemeData(
       color: Colors.white,
     ),
@@ -86,16 +79,16 @@ getThemeStatus() async {
 String nameAppBarChapter(int index) {
   switch (index) {
     case 0:
-      return 'برنامه آموزشی';
+      return 'حداقل نیاز های برنامه';
 
     case 1:
-      return 'فصل دوم';
+      return 'برنامه آموزشی';
 
     case 2:
-      return 'فصل سوم';
+      return 'ارزشیابی';
 
     default:
-      return 'فصل سوم';
+      return 'مشخصات دوره';
   }
 }
 
@@ -106,78 +99,71 @@ List<TextValue> parseJosn(String response) {
   final parsed = json.decode(response.toString()).cast<Map<String, dynamic>>();
   return parsed.map<TextValue>((json) => TextValue.fromJson(json)).toList();
 }
-/*
 
-
-Widget fetchJsonData(BuildContext context) {
+FutureBuilder<String> fetch_data(BuildContext context, int index) {
   return FutureBuilder(
-      future: DefaultAssetBundle.of(context)
-          .loadString('assets/db/text_value.json'),
-      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-        
-        List<TextValue> text_values = parseJosn(snapshot.data.toString());
+    future:
+        DefaultAssetBundle.of(context).loadString('assets/db/text_value.json'),
+    builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+      switch (snapshot.connectionState) {
+        case ConnectionState.none:
+          return const Text('Press button to start.');
+        case ConnectionState.active:
+        case ConnectionState.waiting:
+          return const Center(child: CircularProgressIndicator());
+        case ConnectionState.done:
+          if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else {
+            List<TextValue> text_values = parseJosn(snapshot.data.toString());
 
-        SearchScreen(listTextValue: text_values);
-
-        return text_values.isNotEmpty
-            ? TextValueList(listTextValue: text_values)
-            : Text("file is empty");
-      });
+            return text_values.isNotEmpty
+                ? TextValueList(listTextValue: text_values, index: index)
+                : Text("file is empty");
+          }
+      }
+    },
+  );
 }
-*/
 
-
-
-FutureBuilder<String> fetch_data(BuildContext context) {
-    return FutureBuilder(
-        future: DefaultAssetBundle.of(context)
-            .loadString('assets/db/text_value.json'),
-        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-              return const Text('Press button to start.');
-            case ConnectionState.active:
-            case ConnectionState.waiting:
-              return const Center(child: CircularProgressIndicator());
-            case ConnectionState.done:
-              if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              } else {
-
-                List<TextValue> text_values = parseJosn(snapshot.data.toString());
-
-                return text_values.isNotEmpty ? TextValueList(listTextValue: text_values) : Text("file is empty");
-              }
-          }
-        },
-      );
+double? getFontSize(int? index) {
+  switch (index) {
+    case 0:
+      return 14;
+    case 1:
+      return 17;
+    default:
+      return 20;
   }
+}
 
-
- FutureBuilder<String> fetch_data_search(BuildContext context , String query) {
-    return FutureBuilder(
-        future: DefaultAssetBundle.of(context)
-            .loadString('assets/db/text_value.json'),
-        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-              return const Text('Press button to start.');
-            case ConnectionState.active:
-            case ConnectionState.waiting:
-              return const Center(child: CircularProgressIndicator());
-            case ConnectionState.done:
-              if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              } else {
-
-                List<TextValue> text_values = parseJosn(snapshot.data.toString());
-
-                return text_values.isNotEmpty ? TextValueList(listTextValue: text_values) : Text("file is empty");
-              }
-          }
-        },
-      );
+String? getFontType(int? index) {
+  switch (index) {
+    case 0:
+      return 'Lalezar';
+    case 1:
+      return 'Vazirmatn';
+    default:
+      return '';
   }
+}
 
+String name_app_bar(int index) {
+  switch (index) {
+    case 1:
+      return 'صفحه اصلی';
+    case 2:
+      return 'جست وجو';
+    case 3:
+      return 'تنظیمات';
+    default:
+      return '';
+  }
+}
 
- 
+AppBar CustomAppBar(int index) => AppBar(
+      title: Text(name_app_bar(index)),
+      centerTitle: true,
+      leading: IconButton(
+          icon: Icon(Icons.info_outlined), onPressed: () => Get.to(AboutUs())),
+    );

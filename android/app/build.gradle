@@ -35,12 +35,13 @@ android {
     }
 
     defaultConfig {
+        multiDexEnabled true
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.ebook_flutter_app.custom.ebook_flutter_app"
         // You can update the following values to match your application needs. 
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
+        minSdkVersion 20
+        targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -57,3 +58,9 @@ android {
 flutter {
     source '../..'
 }
+
+dependencies {
+
+    implementation 'androidx.multidex:multidex:2.0.1'
+}
+
