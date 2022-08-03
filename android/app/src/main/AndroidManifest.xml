@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ebook_flutter_app.custom.ebook_flutter_app">
    <application
-        android:label="ebook_flutter_app"
+        android:label="E-Book"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true">

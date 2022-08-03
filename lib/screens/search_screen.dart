@@ -51,7 +51,6 @@ class SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     super.initState();
-
     loadData();
   }
 

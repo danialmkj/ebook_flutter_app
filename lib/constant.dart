@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:ebook_flutter_app/model/image.dart';
 import 'package:ebook_flutter_app/model/text_value.dart';
 import 'package:ebook_flutter_app/screens/about_us.dart';
 import 'package:flutter/material.dart';
@@ -100,6 +101,14 @@ List<TextValue> parseJosn(String response) {
   return parsed.map<TextValue>((json) => TextValue.fromJson(json)).toList();
 }
 
+List<MyImage> parseImage(response) {
+  if (response.isEmpty) {
+    return [];
+  }
+  final parsed = json.decode(response.toString());
+  return parsed.map<MyImage>((json) => MyImage.fromJson(json)).toList();
+}
+
 FutureBuilder<String> fetch_data(BuildContext context, int index) {
   return FutureBuilder(
     future:
@@ -167,3 +176,5 @@ AppBar CustomAppBar(int index) => AppBar(
       leading: IconButton(
           icon: Icon(Icons.info_outlined), onPressed: () => Get.to(AboutUs())),
     );
+
+

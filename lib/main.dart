@@ -1,4 +1,6 @@
 import 'package:ebook_flutter_app/constant.dart';
+import 'package:ebook_flutter_app/screens/home_screen.dart';
+import 'package:ebook_flutter_app/screens/my_app.dart';
 import 'package:ebook_flutter_app/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: ThemeMode.system,
-      home: SplashScreen(),
+      home:  MyAppComplete(),
     );
   }
 }
