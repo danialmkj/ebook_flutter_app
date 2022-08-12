@@ -177,4 +177,15 @@ AppBar CustomAppBar(int index) => AppBar(
           icon: Icon(Icons.info_outlined), onPressed: () => Get.to(AboutUs())),
     );
 
+String Myasset(String? index) => 'assets/db/chapter3/image$index.jpg';
+
+//check value
+bool isNumeric(String result) {
+  //if  _isNumeric(value) == true  then it will be number otherwise it will be false
+  if (result == null) {
+    return false;
+  }
+  return double.tryParse(result) != null;
+}
+
 

@@ -24,7 +24,6 @@ class TextValueList extends StatefulWidget {
 
 class _TextValueListState extends State<TextValueList> {
   List<TextValue>? myList;
-  String Myasset(String? index) => 'assets/db/chapter3/image$index.jpg';
 
   @override
   Widget build(BuildContext context) {

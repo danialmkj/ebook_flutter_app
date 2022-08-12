@@ -1,7 +1,7 @@
 class MyImage {
-  final int? id;
-  final int? id_num;
-  final int? img_num;
+  final String? id;
+  final String? id_num;
+  final String? img_num;
 
   MyImage({
     this.id,
