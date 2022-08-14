@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:ebook_flutter_app/constant.dart';
 import 'package:ebook_flutter_app/model/image.dart';
+import 'package:ebook_flutter_app/model/new_image.dart';
 import 'package:ebook_flutter_app/model/text_value.dart';
 import 'package:ebook_flutter_app/screens/show_item.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class SearchScreenState extends State<SearchScreen> {
   List result = [];
   TextEditingController txtQuery = TextEditingController();
 
-  MyImage? myImage;
+  NewImage? myImage;
   TextValue? textValue;
 
   void loadData() async {
@@ -75,7 +76,7 @@ class SearchScreenState extends State<SearchScreen> {
       String id_num = element["id_num"].toString();
       String img_num = element["img_num"].toString();
       if (id_num == query1) {
-        myImage = MyImage(id: id, id_num: id_num, img_num: img_num);
+        myImage = NewImage(id: id, id_num: id_num, img_num: img_num);
         result.add(myImage);
       }
     });

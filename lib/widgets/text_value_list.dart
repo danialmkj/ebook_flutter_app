@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:json_table/json_table.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:ebook_flutter_app/model/image.dart';
 import 'package:ebook_flutter_app/model/text_value.dart';
@@ -24,6 +27,17 @@ class TextValueList extends StatefulWidget {
 
 class _TextValueListState extends State<TextValueList> {
   List<TextValue>? myList;
+  List<MyImage>? data;
+
+  List textValues = [];
+  List original = [];
+  List result = [];
+
+  var json;
+
+  var dummyPersonList;
+
+  MyImage? myImage;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +48,6 @@ class _TextValueListState extends State<TextValueList> {
       'جدول برخی دروس انتخابی اختصاصی(Non core)',
       'جدول برخی چرخشهای انتخابی(non core) کارورزی بالینی',
     ];
-
 
     List<TextValue> getCategoryList(List<TextValue> inputList, int index) {
       List<TextValue> outputList = inputList
@@ -170,7 +183,6 @@ class _TextValueListState extends State<TextValueList> {
                     ],
                   ),
                 )),
-
             Card(
               margin: const EdgeInsets.fromLTRB(0, 4.0, 0, 4.0),
               shape: RoundedRectangleBorder(
@@ -227,142 +239,244 @@ class _TextValueListState extends State<TextValueList> {
                     ]),
               ),
             ),
-
             Card(
               margin: const EdgeInsets.fromLTRB(0, 4.0, 0, 4.0),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0)),
               color: Colors.blue[50],
               child: Theme(
-                data: Theme.of(context)
-                    .copyWith(dividerColor: Colors.transparent),
-                child: ExpansionTile(
-                    title: Text(
-                      list_items[2],
-                      textDirection: TextDirection.rtl,
-                      style: const TextStyle(
-                          fontSize: 20.0, color: Colors.black54),
-                    ),
-                    childrenPadding: const EdgeInsets.only(
-                        bottom: 20.0, right: 20.0, left: 20.0, top: 5.0),
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width * 1,
-                        height: MediaQuery.of(context).size.height * 0.3,
-                        child: InkWell(
-                            onTap: () => pushNewScreen(
-                                  context,
-                                  screen: ShowImage(
-                                    title: list_items[2],
-                                    image: Myasset('4'),
-                                  ),
-                                  withNavBar:
-                                      true, // OPTIONAL VALUE. True by default.
-                                  pageTransitionAnimation:
-                                      PageTransitionAnimation.fade,
-                                ),
-                            child: Image.asset(
-                              Myasset('4'),
-                              fit: BoxFit.cover,
-                            )),
+                  data: Theme.of(context)
+                      .copyWith(dividerColor: Colors.transparent),
+                  child: ExpansionTile(
+                      title: Text(
+                        list_items[2],
+                        textDirection: TextDirection.rtl,
+                        style: const TextStyle(
+                            fontSize: 20.0, color: Colors.black54),
                       ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 1,
-                        height: MediaQuery.of(context).size.height * 0.3,
-                        color: Colors.amber,
-                        child: InkWell(
-                          onTap: () => pushNewScreen(
-                            context,
-                            screen: ShowImage(
-                              title: list_items[2],
-                              image: Myasset('5'),
-                            ),
-                            withNavBar:
-                                true, // OPTIONAL VALUE. True by default.
-                            pageTransitionAnimation:
-                                PageTransitionAnimation.fade,
-                          ),
-                          child: Image.asset(
-                            Myasset('5'),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 1,
-                        height: MediaQuery.of(context).size.height * 0.3,
-                        child: InkWell(
-                            onTap: () => pushNewScreen(
-                                  context,
-                                  screen: ShowImage(
-                                    title: list_items[2],
-                                    image: Myasset('6'),
-                                  ),
-                                  withNavBar:
-                                      true, // OPTIONAL VALUE. True by default.
-                                  pageTransitionAnimation:
-                                      PageTransitionAnimation.fade,
-                                ),
-                            child: Image.asset(
-                              Myasset('6'),
-                              fit: BoxFit.cover,
-                            )),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 1,
-                        height: MediaQuery.of(context).size.height * 0.3,
-                        child: InkWell(
-                          onTap: () => pushNewScreen(
-                            context,
-                            screen: ShowImage(
-                              title: list_items[2],
-                              image: Myasset('7'),
-                            ),
-                            withNavBar:
-                                true, // OPTIONAL VALUE. True by default.
-                            pageTransitionAnimation:
-                                PageTransitionAnimation.fade,
-                          ),
-                          child: Image.asset(
-                            Myasset('7'),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.03,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 1,
-                        height: MediaQuery.of(context).size.height * 0.3,
-                        child: InkWell(
-                          onTap: () => pushNewScreen(
-                            context,
-                            screen: ShowImage(
-                              title: list_items[2],
-                              image: Myasset('8'),
-                            ),
-                            withNavBar:
-                                true, // OPTIONAL VALUE. True by default.
-                            pageTransitionAnimation:
-                                PageTransitionAnimation.fade,
-                          ),
-                          child: Image.asset(Myasset('8'), fit: BoxFit.cover),
-                        ),
-                      ),
-                    ]),
-              ),
-            ),
+                      childrenPadding: const EdgeInsets.only(
+                          bottom: 20.0, right: 20.0, left: 20.0, top: 5.0),
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height,
+                          child: Stack(
+                            alignment: AlignmentDirectional.centerEnd,
+                            // fit: StackFit.expand,
+                            children: [
+                              SingleChildScrollView(
+                                child: Positioned(
+                                    child: Column(
+                                  children: [
+                                    Container(
+                                      width:
+                                          MediaQuery.of(context).size.width * 1,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.3,
+                                      child: InkWell(
+                                          onTap: () => pushNewScreen(
+                                                context,
+                                                screen: ShowImage(
+                                                  title: list_items[2],
+                                                  image: Myasset('4'),
+                                                ),
+                                                withNavBar:
+                                                    true, // OPTIONAL VALUE. True by default.
+                                                pageTransitionAnimation:
+                                                    PageTransitionAnimation
+                                                        .fade,
+                                              ),
+                                          child: Image.asset(
+                                            Myasset('4'),
+                                            fit: BoxFit.cover,
+                                          )),
+                                    ),
+                                    Container(
+                                      width:
+                                          MediaQuery.of(context).size.width * 1,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.3,
+                                      child: InkWell(
+                                        onTap: () => pushNewScreen(
+                                          context,
+                                          screen: ShowImage(
+                                            title: list_items[2],
+                                            image: Myasset('5'),
+                                          ),
+                                          withNavBar:
+                                              true, // OPTIONAL VALUE. True by default.
+                                          pageTransitionAnimation:
+                                              PageTransitionAnimation.fade,
+                                        ),
+                                        child: Image.asset(
+                                          Myasset('5'),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      width:
+                                          MediaQuery.of(context).size.width * 1,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.3,
+                                      child: InkWell(
+                                          onTap: () => pushNewScreen(
+                                                context,
+                                                screen: ShowImage(
+                                                  title: list_items[2],
+                                                  image: Myasset('6'),
+                                                ),
+                                                withNavBar:
+                                                    true, // OPTIONAL VALUE. True by default.
+                                                pageTransitionAnimation:
+                                                    PageTransitionAnimation
+                                                        .fade,
+                                              ),
+                                          child: Image.asset(
+                                            Myasset('6'),
+                                            fit: BoxFit.cover,
+                                          )),
+                                    ),
+                                    Container(
+                                      width:
+                                          MediaQuery.of(context).size.width * 1,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.3,
+                                      child: InkWell(
+                                        onTap: () => pushNewScreen(
+                                          context,
+                                          screen: ShowImage(
+                                            title: list_items[2],
+                                            image: Myasset('7'),
+                                          ),
+                                          withNavBar:
+                                              true, // OPTIONAL VALUE. True by default.
+                                          pageTransitionAnimation:
+                                              PageTransitionAnimation.fade,
+                                        ),
+                                        child: Image.asset(
+                                          Myasset('7'),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      width:
+                                          MediaQuery.of(context).size.width * 1,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.3,
+                                      child: InkWell(
+                                        onTap: () => pushNewScreen(
+                                          context,
+                                          screen: ShowImage(
+                                            title: list_items[2],
+                                            image: Myasset('8'),
+                                          ),
+                                          withNavBar:
+                                              true, // OPTIONAL VALUE. True by default.
+                                          pageTransitionAnimation:
+                                              PageTransitionAnimation.fade,
+                                        ),
+                                        child: Image.asset(Myasset('8'),
+                                            fit: BoxFit.cover),
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                              ),
+                              Positioned(
+                                  right: 0.1,
+                                  top: 0.5,
+                                  width: 20,
+                                  height: 800,
+                                  child: InkWell(
+                                    onTap: () {
+                                      print("Click me");
+                                    },
+                                    child: FutureBuilder(
+                                      future: DefaultAssetBundle.of(context)
+                                          .loadString(
+                                              'assets/db/image_db.json'),
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<String> snapshot) {
+                                        switch (snapshot.connectionState) {
+                                          case ConnectionState.none:
+                                            return const Text(
+                                                'Press button to start.');
+                                          case ConnectionState.active:
+                                          case ConnectionState.waiting:
+                                            return const Center(
+                                                child:
+                                                    CircularProgressIndicator());
+                                          case ConnectionState.done:
+                                            if (snapshot.hasError) {
+                                              return Text(
+                                                  'Error is: ${snapshot.error}');
+                                            } else {
+                                              data = parseImage(snapshot.data);
 
+                                              return ListView.builder(
+                                                  itemBuilder:
+                                                      (BuildContext context,
+                                                          int index) {
+                                                    return InkWell(
+                                                      onTap: () =>
+                                                          pushNewScreen(
+                                                        context,
+                                                        screen: ShowImage(
+                                                          title: data![index]
+                                                              .id_num!
+                                                              .toString(),
+                                                          image: Myasset(
+                                                              data![index]
+                                                                  .img_num!
+                                                                  .toString()),
+                                                        ),
+                                                        withNavBar:
+                                                            true, // OPTIONAL VALUE. True by default.
+                                                        pageTransitionAnimation:
+                                                            PageTransitionAnimation
+                                                                .fade,
+                                                      ),
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                        width: 20,
+                                                        height: 7,
+                                                        child: Text(
+                                                          data![index]
+                                                              .id_num!
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                            fontSize: 7.0,
+                                                            color: Colors.black,
+                                                          ),
+                                                        ),
+                                                        // children: [
+                                                        //   Image.asset(Myasset(
+                                                        //       data[index]
+                                                        //           .img_num!
+                                                        //           .toString()))
+                                                        // ],
+                                                      ),
+                                                    );
+                                                  },
+                                                  itemCount: data!.length,
+                                                  shrinkWrap: true);
+                                            }
+                                        }
+                                      },
+                                    ),
+                                  ))
+                            ],
+                          ),
+                        ),
+                      ])),
+            ),
             Card(
               margin: const EdgeInsets.fromLTRB(0, 4.0, 0, 4.0),
               shape: RoundedRectangleBorder(
@@ -404,7 +518,6 @@ class _TextValueListState extends State<TextValueList> {
                     ]),
               ),
             ),
-
             Card(
               margin: const EdgeInsets.fromLTRB(0, 4.0, 0, 4.0),
               shape: RoundedRectangleBorder(
@@ -424,72 +537,83 @@ class _TextValueListState extends State<TextValueList> {
                         bottom: 20.0, right: 20.0, left: 20.0, top: 5.0),
                     children: [
                       InkWell(
-                        onTap: ()=> pushNewScreen(
-                                  context,
-                                  screen: ShowImage(
-                                    title: 'کارورزی',
-                                    image: Myasset('10'),
-                                  ),
-                                  withNavBar:
-                                      true, // OPTIONAL VALUE. True by default.
-                                  pageTransitionAnimation:
-                                      PageTransitionAnimation.fade,
-                                ),
+                        onTap: () => pushNewScreen(
+                          context,
+                          screen: ShowImage(
+                            title: 'کارورزی',
+                            image: Myasset('10'),
+                          ),
+                          withNavBar: true, // OPTIONAL VALUE. True by default.
+                          pageTransitionAnimation: PageTransitionAnimation.fade,
+                        ),
                         child: ExpansionTile(
                           title: Text('کارورزی'),
                           children: [Image.asset(Myasset('10'))],
                         ),
                       ),
-                      FutureBuilder(
-                        future: DefaultAssetBundle.of(context)
-                            .loadString('assets/db/image_db.json'),
-                        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                          switch (snapshot.connectionState) {
-                            case ConnectionState.none:
-                              return const Text('Press button to start.');
-                            case ConnectionState.active:
-                            case ConnectionState.waiting:
-                              return const Center(
-                                  child: CircularProgressIndicator());
-                            case ConnectionState.done:
-                              if (snapshot.hasError) {
-                                return Text('Error is: ${snapshot.error}');
-                              } else  {
-                                
-                                final List<MyImage> data = parseImage(snapshot.data);
-
-                                return ListView.builder(
-                                    itemBuilder: (BuildContext context, int index) {
-                                      return InkWell(
-                                        onTap: () => pushNewScreen(
-                                  context,
-                                  screen: ShowImage(
-                                    title: data[index].id_num!.toString(),
-                                    image: Myasset(data[index].img_num!.toString()),
-                                  ),
-                                  withNavBar:
-                                      true, // OPTIONAL VALUE. True by default.
-                                  pageTransitionAnimation:
-                                      PageTransitionAnimation.fade,
-                                ),
-                                        child: ExpansionTile(
-                                          title: Text(data[index].id_num!.toString() , style: TextStyle(fontFamily: 'lalezar'),),
-                                          children: [
-                                            Image.asset(Myasset(data[index].img_num!.toString()))
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                    itemCount: data.length,
-                                    shrinkWrap: true);
-                              }
-                          }
-                        },
-                      ),
                     ]),
               ),
             ),
+            FutureBuilder(
+              future: DefaultAssetBundle.of(context)
+                  .loadString('assets/db/image_db.json'),
+              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.none:
+                    return const Text('Press button to start.');
+                  case ConnectionState.active:
+                  case ConnectionState.waiting:
+                    return const Center(child: CircularProgressIndicator());
+                  case ConnectionState.done:
+                    if (snapshot.hasError) {
+                      return Text('Error is: ${snapshot.error}');
+                    } else {
+                      final List<MyImage> data = parseImage(snapshot.data);
+
+                      return ListView.builder(
+                          itemBuilder: (BuildContext context, int index) {
+                            return InkWell(
+                                onTap: () => pushNewScreen(
+                                      context,
+                                      screen: ShowImage(
+                                        title: data[index].id_num!.toString(),
+                                        image: Myasset(
+                                            data[index].img_num!.toString()),
+                                      ),
+                                      withNavBar:
+                                          true, // OPTIONAL VALUE. True by default.
+                                      pageTransitionAnimation:
+                                          PageTransitionAnimation.fade,
+                                    ),
+                                child: Card(
+                                    margin: const EdgeInsets.fromLTRB(
+                                        0, 4.0, 0, 4.0),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(15.0)),
+                                    color: Colors.blue[50],
+                                    child: Theme(
+                                      data: Theme.of(context).copyWith(
+                                          dividerColor: Colors.transparent),
+                                      child: ExpansionTile(
+                                        title: Text(
+                                          data[index].id_num!.toString(),
+                                          style:
+                                              TextStyle(fontFamily: 'lalezar'),
+                                        ),
+                                        children: [
+                                          Image.asset(Myasset(
+                                              data[index].img_num!.toString()))
+                                        ],
+                                      ),
+                                    )));
+                          },
+                          itemCount: data.length,
+                          shrinkWrap: true);
+                    }
+                }
+              },
+            ),
           ]);
   }
-
 }
